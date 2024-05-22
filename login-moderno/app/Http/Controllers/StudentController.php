@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Studens;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -11,6 +12,8 @@ class StudentController extends Controller
      */
     public function index()
     {
+        $stundents = Studens::all();
+        return view('students.index', compact('stundents'));
         //
     }
 
@@ -19,6 +22,7 @@ class StudentController extends Controller
      */
     public function create()
     {
+        return view('students.create');
         //
     }
 
@@ -27,6 +31,16 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate(
+            [
+                'name' => 'required|string|min:5|max:100',
+                'age' => 'required|integer|min:1'
+            ]
+            );
+
+         Studens::create($request->all());   
+
+         return redirect()->route('students.index');
         //
     }
 
@@ -43,6 +57,8 @@ class StudentController extends Controller
      */
     public function edit(string $id)
     {
+        $student = Studens::findOrFail($id);
+        return view('students.edit', compact('student'));
         //
     }
 
@@ -51,6 +67,17 @@ class StudentController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $request->validate(
+            [
+                'name' => 'required|string|min:5|max:100',
+                'age' => 'required|integer|min:1'
+            ]
+            );
+
+        
+        $stundent = Studens::findOrFail($id);
+        $stundent->update($request->all()); 
+        return redirect()->route('students.index');
         //
     }
 
@@ -59,6 +86,9 @@ class StudentController extends Controller
      */
     public function destroy(string $id)
     {
+        $stundent = Studens::findOrFail($id);
+        $stundent-> delete();
+        return redirect()->route('students.index');
         //
     }
 }

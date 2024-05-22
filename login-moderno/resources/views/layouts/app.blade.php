@@ -13,8 +13,9 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+        <script src="{{asset('js/alertify.min.js')}}"></script>
         <!-- Styles -->
+        <link rel="stylesheet" href ="{{asset('css/alertify.min.css')}}">
         @livewireStyles
     </head>
     <body class="font-sans antialiased">
